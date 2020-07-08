@@ -23,7 +23,7 @@ class App extends Component {
       const result =  await resp.json()
       //console.log(result)
       this.setState({
-        data : result
+        data : result.users
       })
 
     }
@@ -43,7 +43,10 @@ class App extends Component {
     onChange = (event) => {
       console.log(event.target.name, event.target.value)
       this.setState({
-        [event.target.name] : event.target.value
+          student: {
+            [event.target.name] : event.target.value
+          }
+          
       })
   }
 
@@ -63,7 +66,11 @@ class App extends Component {
         headers: {
             'Content-Type' : 'application/json'
         }
+
       })
+      if(resp.ok) {
+        alert('New student added')
+      }
       //console.log(resp)
     }
     delItem = async (id) => {
