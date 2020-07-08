@@ -81,12 +81,21 @@ class App extends Component {
       this.setState({ show: false})
    }
    openAndEdit = async (id) => {
-  
+  //   const data =  {
+  //     name: this.state.student.name,
+  //     surname: this.state.student.surname,
+  //     email: this.state.student.email,
+  //     dateOfBirth : this.state.student.dateOfBirth,
+  //     country: this.state.student.country
+  // }
+    // const resp = await fetch('http://localhost:3001/users/' + id)
+    // const result =  await resp.json()
+    // console.log(result)
     const student = this.state.data.find(student => student._id === id)
     this.setState({
       show: true,
       student: student
-      
+      // data : result
     })
    }
     
