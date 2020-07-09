@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 
 
 const usersRouter = require("./services/users")
+const projectRouter = require("./services/projects")
 
 const {
   notFoundHandler,
@@ -25,6 +26,7 @@ server.use(cors())
 
 
 server.use("/users", usersRouter)
+server.use("/projects", projectRouter)
 
 // ERROR HANDLERS MIDDLEWARES
 

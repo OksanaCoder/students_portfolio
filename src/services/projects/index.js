@@ -13,6 +13,16 @@ projectRouter.get("/", async (req, res, next) => {
   }
 })
 
+projectRouter.get("/?name=", async (req, res, next) => {
+    try {
+    
+      const projects = await projectSchema.find(req.params.name)
+      res.send(projects)
+    } catch (error) {
+      next(error)
+    }
+  })
+
 projectRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id
@@ -46,24 +56,7 @@ projectRouter.post("/",
    }
 })
 
-projectRouter.post("/checkEmail",
- async (req, res, next) => {
-  try {
-    const emaiExist = await projectSchema.findOne({"email": req.body.email}).then(function(result){
-      return result !==null;
-    })
-     if(emaiExist){
-       res.send("email exits")
-     }else{
-       const newProject = new projectSchema(req.body)
-     const { _id } = await newUser.save()
-     res.status(201).send(_id)
-     }
-     
-   } catch (error) {
-     next(error)
-   }
-})
+
  
 projectRouter.put("/:id", async (req, res, next) => {
   try {

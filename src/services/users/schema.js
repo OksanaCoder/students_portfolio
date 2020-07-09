@@ -37,7 +37,17 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  projects : [{
+    type : Schema.Types.ObjectId, ref: 'projects'
+  }],
+
+ 
 })
+UserSchema.static("studentProject", async function(id){
+  const projects  = await studentModel.find({_id: id}).populate("projects");
+  return projects;
+})
+
 
 const studentModel = mongoose.model("students",  UserSchema)
 module.exports = studentModel

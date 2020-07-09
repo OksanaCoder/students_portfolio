@@ -1,6 +1,7 @@
 const express = require("express")
 var valid = require('validator')
 const UserSchema = require("./schema")
+const studentModel = require("./schema")
 const {check, body, validationResult} = require("express-validator");
 const usersRouter = express.Router()
 
@@ -12,6 +13,16 @@ usersRouter.get("/", async (req, res, next) => {
     next(error)
   }
 })
+usersRouter.get("/:studentID/projects", async (req, res, next) => {
+  try {
+    const projects = await studentModel.studentProject(req.params.studentID)
+    res.send(projects)
+  } catch (error) {
+    next(error)
+  }
+})
+
+
 
 usersRouter.get("/:id", async (req, res, next) => {
   try {
