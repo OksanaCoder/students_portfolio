@@ -165,7 +165,7 @@ class App extends Component {
    
          <Form.Group>
            <Form.Label>Date of Birth</Form.Label>
-           <Form.Control name='dateOfBirth' onChange={this.onChange} value={this.state.student.dateOfBirth} type="date" />
+           <Form.Control  name='dateOfBirth' onChange={this.onChange} value={this.state.student.dateOfBirth} type="date" />
          </Form.Group>
    
          <Form.Group>
