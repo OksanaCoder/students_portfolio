@@ -44,6 +44,7 @@ class App extends Component {
       console.log(event.target.name, event.target.value)
       this.setState({
           student: {
+            ...this.state.student,
             [event.target.name] : event.target.value
           }
           
