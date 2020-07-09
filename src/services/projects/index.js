@@ -6,8 +6,8 @@ const projectRouter = express.Router()
 
 projectRouter.get("/", async (req, res, next) => {
   try {
-    const users = await projectSchema.find(req.query).sort({firstname: -1}).limit(0).skip(0)
-    res.send({TotalStudents: users.length, users})
+    const projects = await projectSchema.find(req.query).sort({firstname: -1}).limit(0).skip(0)
+    res.send({TotalProjects: projects.length, projects})
   } catch (error) {
     next(error)
   }
@@ -16,9 +16,9 @@ projectRouter.get("/", async (req, res, next) => {
 projectRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id
-    const user = await projectSchema.findById(id)
-    if (user) {
-      res.send(user)
+    const project = await projectSchema.findById(id)
+    if (project) {
+      res.send(project)
     } else {
       const error = new Error()
       error.httpStatusCode = 404
@@ -36,8 +36,8 @@ projectRouter.post("/",
     
     
    
-    const newUser = new projectSchema(req.body)
-     const { _id } = await newUser.save()
+    const newProject = new projectSchema(req.body)
+     const { _id } = await newProject.save()
      res.status(201).send(_id)
      
      
@@ -55,7 +55,7 @@ projectRouter.post("/checkEmail",
      if(emaiExist){
        res.send("email exits")
      }else{
-       const newUser = new projectSchema(req.body)
+       const newProject = new projectSchema(req.body)
      const { _id } = await newUser.save()
      res.status(201).send(_id)
      }
@@ -67,9 +67,9 @@ projectRouter.post("/checkEmail",
  
 projectRouter.put("/:id", async (req, res, next) => {
   try {
-    const user = await projectSchema.findByIdAndUpdate(req.params.id, req.body)
-    console.log(user)
-    if (user) {
+    const project = await projectSchema.findByIdAndUpdate(req.params.id, req.body)
+    console.log(project)
+    if (project) {
       res.send("Ok")
     } else {
       const error = new Error(`User with id ${req.params.id} not found`)
@@ -83,8 +83,8 @@ projectRouter.put("/:id", async (req, res, next) => {
 
 projectRouter.delete("/:id", async (req, res, next) => {
   try {
-    const user = await projectSchema.findByIdAndDelete(req.params.id)
-    if (user) {
+    const project = await projectSchema.findByIdAndDelete(req.params.id)
+    if (project) {
       res.send("Deleted")
     } else {
       const error = new Error(`User with id ${req.params.id} not found`)
