@@ -7,7 +7,7 @@ const usersRouter = express.Router()
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    const users = await UserSchema.find(req.query).sort({firstname: -1}).limit(0).skip(0)
+    const users = await UserSchema.find(req.query).populate("projects")
     res.send({TotalStudents: users.length, users})
   } catch (error) {
     next(error)
