@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import { Form, Button, Table, Modal } from 'react-bootstrap'
+import { Form, Button, Table, Modal, Card } from 'react-bootstrap'
 import ModalProject from './ModalProject'
-
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom';
+import Projects from './Projects'
+// import LoadingSpinner from './Components/LoadingSpinner'
 
 class Students extends Component {
     constructor(props){
         super(props)
         this.state={
+  
+
             data : [],
             projects: [],
             show: false,
+            show1: false,
             Mshow: false,
         
              student : {
@@ -29,7 +39,9 @@ class Students extends Component {
       const result =  await resp.json()
       //console.log(result)
       this.setState({
+   
         data : result.users
+        
       })
       console.log("props from student", this.props.match)
     }
@@ -90,9 +102,13 @@ class Students extends Component {
         alert("deleted")
       }
     }
-   handleClose() {
+   handleClose =() => {
       this.setState({ show: false})
    }
+   handleClose1 =() => {
+    this.setState({ show1: false})
+ }
+   
    openAndEdit = async (id) => {
   
     const student = this.state.data.find(student => student._id === id)
@@ -141,7 +157,7 @@ class Students extends Component {
         //console.log(result)
         this.setState({
           projects : result,
-          Mshow: true
+          show1: true
         })
         console.log(result)
       
@@ -152,9 +168,17 @@ class Students extends Component {
     // console.log("props from student", this.props)
     return (
       <>
-         <div className='container mt-5'>
-           <h5><i>Add new user</i></h5>
-         <Form className='mt-4 formSub' onSubmit={this.saveStudeent}>
+ 
+
+ 
+      <div>
+         <div className='container-fluid back-jumbo' style={{position:'relative', padding: '0px 100px'}}>
+           <div className='descr' style={{fontStyle:'italic', position:'absolute', top: '350px', left: '300px'}}>
+           <h5 >Strivers</h5>
+           <h4 style={{fontSize: '30px'}}>Portfolio</h4>
+           </div> 
+           
+         {/* <Form className='mt-4 formSub' onSubmit={this.saveStudeent}>
          <Form.Group>
            <Form.Label>Name</Form.Label>
            <Form.Control name='name' onChange={this.onChange} value={this.state.student.name} type="text" placeholder="Enter name" />
@@ -186,20 +210,9 @@ class Students extends Component {
          <Button variant="danger" type="submit">
            Submit
          </Button>
-       </Form>
+       </Form> */}
 
-       <Table striped bordered hover className='mt-5'>
-      
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Surname</th>
-      <th>Email</th>
-      <th>Date of Birth</th>
-      <th>Country</th>
-      
-    </tr>
-
+    
 
    
        
@@ -208,23 +221,43 @@ class Students extends Component {
 
        return (
          <>
-          <tr>
-        <td>{i+1}</td>
-        <td>{item.name}</td>
-        <td>{item.surname}</td>
-        <td>{item.email}</td>
-        <td>{item.dateOfBirth}</td>
-        <td>{item.country}</td>
-        <td><Button variant='danger' onClick={() => this.delItem(item._id)}>Remove</Button></td>
-        <td><Button variant='success' onClick={() => this.openAndEdit(item._id)}>Edit</Button></td>
-        <td><Button variant='dark' onClick={() => this.openProject(item._id)}>Project</Button></td>
-        </tr>
-        <Modal show={this.state.show} >
+<div className='row'>
+  
+      <Card className='col-sm-12 col-md-2 col-lg-2 card-portf' style={{width: '10%'}}>
+
+      <Link to={'/details/' + item._id} ><Card.Img variant="top" className='imgs' src={item.img} onClick={() => this.openProject(item._id)}/></Link>
+       
+        <Card.Body>
+          <Card.Title style={{fontStyle:'italic'}}>{item.name} {item.surname}</Card.Title>
+         <Button variant='danger' onClick={() => this.delItem(item._id)}>Remove</Button>
+         <Button variant='success' onClick={() => this.openAndEdit(item._id)}>Edit</Button>
+        
+        <Link to={'/projects'} ><Button variant='dark'>Projects</Button></Link>
+          {/* <Router>
+               <Link to='/projects' ><Button variant='dark'>Projects</Button></Link> 
+
+              
+          </Router> */}
+
+         
+      {/* <Button variant='dark' onClick={() => this.openProject(item._id)}>Projects</Button>
+       */}
+    
+     
+        {/* <Router>
+           <Route path="/projects" component={Projects} />
+        </Router> */}
+       {/* <Link to='/projects' ><Button variant='dark'>Projects</Button></Link> */}
+          {/* <Button variant="primary" onClick={() => this.openProject(item._id)}>More...</Button> */}
+        </Card.Body>
+      </Card>
+      </div>
+        <Modal show={this.state.show} className='modal-wind'  onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-         <Form className='mt-4 formSub' onSubmit={this.saveStudeent}>
+         <Form className='mt-4' onSubmit={this.saveStudeent}>
          <Form.Group>
            <Form.Label>Name</Form.Label>
            <Form.Control name='name' onChange={this.onChangeStudent} value={this.state.student.name} type="text" placeholder="Enter name" />
@@ -238,7 +271,7 @@ class Students extends Component {
          <Form.Group>
            <Form.Label>Email</Form.Label>
            <Form.Control name='email' onChange={this.onChangeStudent} value={this.state.student.email} type="email" placeholder="Enter email" />
-           <Form.Text className="text-muted">
+           <Form.Text>
              We'll never share your email with anyone else.
            </Form.Text>
          </Form.Group>
@@ -265,7 +298,30 @@ class Students extends Component {
           </Button>
         </Modal.Footer>
       </Modal>
-      <ModalProject show={this.state.projects} showModal={this.state.Mshow} />
+
+      <Modal show={this.state.show1} onHide={this.handleClose1}>
+        <Modal.Header closeButton>
+      <Modal.Title>ABOUT</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul className='list-unstyled'>
+            <li>Name: {item.name}</li>
+            <li>Surname: {item.surname}</li>
+            <li>Email:  {item.email}</li>
+            <li>Country: {item.country}</li>
+            <li>Date of birth {item.dateOfBirth}</li>
+          </ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.handleClose1}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={this.handleClose1}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* <ModalProject show={this.state.projects} showModal={this.state.Mshow} /> */}
         </>
         
   )
@@ -273,10 +329,11 @@ class Students extends Component {
      )
       }
 
-  
-</Table>
+</div>
+    
        </div>
-      
+    
+
       </>
      );
   }

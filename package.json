@@ -13,12 +13,14 @@
   "author": "Riccardo Gulin",
   "license": "ISC",
   "dependencies": {
+    "connect": "^3.7.0",
     "cors": "^2.8.5",
     "date-fns": "^2.14.0",
     "express": "^4.17.1",
     "express-list-endpoints": "^4.0.1",
     "express-validator": "^6.6.0",
     "mongoose": "^5.9.21",
+    "st": "^2.0.0",
     "validator": "^13.1.1"
   },
   "devDependencies": {
